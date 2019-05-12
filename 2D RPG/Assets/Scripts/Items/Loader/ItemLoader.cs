@@ -9,7 +9,9 @@ public class ItemLoader : MonoBehaviour
 
     private void Awake()
     {
+        //Converts a json file to a text asset
         TextAsset asset = Resources.Load("Items/ItemInfo") as TextAsset;
+        //Checks if the asset is null or not if not it converts the asset to text to a list of items
         if (asset != null) itemInfo = JsonUtility.FromJson<ItemList>(asset.text);
     }
 
