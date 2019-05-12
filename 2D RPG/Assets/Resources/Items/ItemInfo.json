@@ -1,0 +1,17 @@
+{
+	"ItemInfo":
+	[
+		{
+			"itemId": 0,
+			"itemName": "Test 1",
+			"itemDescription": "Test description 1",
+			"itemSprite": "sprite_1"
+		},
+		{
+			"itemId": 1,
+			"itemName": "Test 2",
+			"itemDescription": "Test description 2",
+			"itemSprite": "sprite_2"
+		}
+	]
+}
