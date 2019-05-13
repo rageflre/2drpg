@@ -2,16 +2,22 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Item : ScriptableObject
+public class Item
 {
-    [SerializeField]
+
+    public Item(int id, int amount)
+    {
+        this.itemId = id;
+        this.itemAmount = amount;
+    }
+
+    public Item(int id)
+    {
+        this.itemId = id;
+        this.itemAmount = 1;
+    }
+
     int itemId;
-    [SerializeField]
-    string itemName;
-    [SerializeField]
-    string itemDescription;
-    [SerializeField]
-    string itemSprite;
 
     public int getId()
     {
@@ -23,33 +29,26 @@ public class Item : ScriptableObject
         itemId = id;
     }
 
-    public string getName()
+    int itemAmount;
+
+    public int getAmount()
     {
-        return itemName;
+        return itemAmount;
     }
 
-    public void setName(string name)
+    public void setAmount(int amount)
     {
-        itemName = name;
+        itemAmount = amount;
     }
 
-    public string getDescription()
+    public ItemInfo getDefinition()
     {
-        return itemDescription;
+        return ItemLoader.itemInfo.ItemInfo[itemId];
     }
 
-    public void setDescription(string desc)
+    override
+    public string ToString()
     {
-        itemDescription = desc;
-    }
-
-    public string getSprite()
-    {
-        return itemSprite;
-    }
-
-    public void setSprite(string sprite)
-    {
-        itemSprite = sprite;
+        return string.Format("name: {0}\ndescription: {1}\nstackable: {2}", getDefinition().itemName, getDefinition().itemDescription, getDefinition().stackable);
     }
 }

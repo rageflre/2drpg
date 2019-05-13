@@ -5,7 +5,7 @@ using UnityEngine;
 public class ItemLoader : MonoBehaviour
 {
     //Creates an new instance of the item definition class
-    public ItemList itemInfo = new ItemList();
+    public static ItemList itemInfo = new ItemList();
 
     private void Awake()
     {

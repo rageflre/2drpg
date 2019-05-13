@@ -3,15 +3,21 @@
 	[
 		{
 			"itemId": 0,
-			"itemName": "Test 1",
-			"itemDescription": "Test description 1",
-			"itemSprite": "sprite_1"
+			"itemName": "Small shield",
+			"itemDescription": "This is a small shield.",
+			"stackable": false
 		},
 		{
 			"itemId": 1,
-			"itemName": "Test 2",
-			"itemDescription": "Test description 2",
-			"itemSprite": "sprite_2"
+			"itemName": "Big shield",
+			"itemDescription": "This is a big shield.",
+			"stackable": false
+		},
+		{
+			"itemId": 2,
+			"itemName": "Throwable sword",
+			"itemDescription": "This is a trowable sword.",
+			"stackable": true
 		}
 	]
 }

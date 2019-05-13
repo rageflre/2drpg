@@ -9,5 +9,5 @@ public class ItemInfo
     public int itemId;
     public string itemName;
     public string itemDescription;
-    public string itemSprite;
+    public bool stackable;
 }

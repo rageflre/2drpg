@@ -24,6 +24,8 @@ public class PlayerMovement : MonoBehaviour
 
     void HandleMovement()
     {
+        //Checks if the console is opened
+        if (Console.consoleOpened) return;
         //Handles the regular movement of the player
         rb.velocity = new Vector2(input.horizontalMovement * speed, input.verticalMovement * speed);
     }

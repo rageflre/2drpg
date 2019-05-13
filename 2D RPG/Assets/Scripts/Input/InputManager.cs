@@ -24,6 +24,18 @@ public class InputManager : MonoBehaviour
         set;
     }
 
+    public bool consolePressed
+    {
+        get;
+        set;
+    }
+
+    public bool enterPressed
+    {
+        get;
+        set;
+    }
+
     public bool quitButtonPressed
     {
         get;
@@ -56,6 +68,8 @@ public class InputManager : MonoBehaviour
             horizontalMovement = Input.GetAxisRaw("Horizontal");
             verticalMovement = Input.GetAxisRaw("Vertical");
             inventoryPressed = Input.GetKeyDown(KeyCode.I);
+            consolePressed = Input.GetKeyDown(KeyCode.F12);
+            enterPressed = Input.GetKeyDown(KeyCode.Return);
         }
 
         if (quitButtonPressed)
