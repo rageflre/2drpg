@@ -8,6 +8,8 @@ public class Inventory : MonoBehaviour
     //The container for the inventory
     [SerializeField]
     Container inventory = new Container(30);
+
+    Container equipment = new Container(10);
     //The game object for the inventory
     [SerializeField]
     GameObject inventoryObject;
