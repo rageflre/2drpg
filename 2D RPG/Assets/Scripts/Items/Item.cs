@@ -19,7 +19,7 @@ public class Item
 
     int itemId;
 
-    public int getId()
+    public int GetId()
     {
         return itemId;
     }
@@ -31,7 +31,7 @@ public class Item
 
     int itemAmount;
 
-    public int getAmount()
+    public int GetAmount()
     {
         return itemAmount;
     }

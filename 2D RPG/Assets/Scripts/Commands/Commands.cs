@@ -56,7 +56,7 @@ public class Commands
 
                 if (item != null)
                 {
-                    playerObject.GetComponent<Inventory>().Add(item, slot);
+                    GameManager.GetInventory().Add(item, slot);
                     Console.AddTextToConsole(options[0].Replace("{0}", amount.ToString()).Replace("{1}", item.getDefinition().itemName));
                 }
                 else Console.AddTextToConsole(options[1]);
@@ -81,7 +81,7 @@ public class Commands
                 }
                 if (item != null)
                 {
-                    playerObject.GetComponent<Inventory>().Remove(item);
+                    GameManager.GetInventory().Remove(item);
                     Console.AddTextToConsole(options[0].Replace("{0}", amount.ToString()).Replace("{1}", item.getDefinition().itemName));
                 }
                 else Console.AddTextToConsole(options[1]);

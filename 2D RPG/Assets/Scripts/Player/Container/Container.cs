@@ -43,7 +43,7 @@ public class Container
         //Checks if the slot is higher then -1, else look for the next free slot
         int newSlot = slot > -1 ? slot : freeSlot();
         //Checks if the item is stackable and the player has the item
-        if (item.getDefinition().stackable && contains(item)) newSlot = getSlot(item.getId());
+        if (item.getDefinition().stackable && contains(item)) newSlot = getSlot(item.GetId());
         //Make sure the slot is actually free once again
         if (get(newSlot) != null) newSlot = freeSlot();
         //Checks if new slot is -1
@@ -55,14 +55,14 @@ public class Container
             for (int index = 0; index < items.Length; index++)
             {
                 //Checks if the item isnt null and the id's match
-                if (items[index] != null && items[index].getId() == item.getId())
+                if (items[index] != null && items[index].GetId() == item.GetId())
                 {
                     //Grabs the new total count of the items
-                    int totalCount = item.getAmount() + items[index].getAmount();
+                    int totalCount = item.GetAmount() + items[index].GetAmount();
                     //Checks if the total count is higher then the max int or lower then 1
                     if (totalCount >= int.MaxValue || totalCount < 1) return false;
                     //Sets the new item amount on the correct slot
-                    set(index, new Item(items[index].getId(), items[index].getAmount() + item.getAmount()));
+                    set(index, new Item(items[index].GetId(), items[index].GetAmount() + item.GetAmount()));
                     return true;
                 }
             }
@@ -74,15 +74,15 @@ public class Container
             //Checks how many free slots there are left in the container
             int openSlots = freeSlots();
             //Checks if the amount of the items is higher then the free amount of slots the container has
-            if (item.getAmount() > openSlots)
+            if (item.GetAmount() > openSlots)
                 item.setAmount(openSlots);
 
-            if (openSlots >= item.getAmount())
+            if (openSlots >= item.GetAmount())
             {
                 //Loops though how many items it should add to the inventory
-                for (int i = 0; i < item.getAmount(); i++)
+                for (int i = 0; i < item.GetAmount(); i++)
                     //Sets the item to the new slot if its free else it takes the next available slot
-                    set(get(newSlot) == null ? newSlot : freeSlot(), new Item(item.getId()));
+                    set(get(newSlot) == null ? newSlot : freeSlot(), new Item(item.GetId()));
                 return true;
             }
         }
@@ -103,39 +103,39 @@ public class Container
         if(item.getDefinition().stackable)
         {
             //Grabs the slot your trying to remove
-            int slot = getSlot(item.getId());
+            int slot = getSlot(item.GetId());
             //Grabs the item stack your removing
             Item stack = get(slot);
             //Checks if there is a stack available or not
             if (stack == null) return -1;
             //Checks if the stack has more items then its removing
-            if (stack.getAmount() > item.getAmount())
+            if (stack.GetAmount() > item.GetAmount())
             {
                 //Sets how many items were removed
-                removed = item.getAmount();
+                removed = item.GetAmount();
                 //Sets the new item with the correct amount
-                set(slot, new Item(stack.getId(), stack.getAmount() - item.getAmount()));
+                set(slot, new Item(stack.GetId(), stack.GetAmount() - item.GetAmount()));
             } else
             {
                 //Sets how many items were removed
-                removed = stack.getAmount();
+                removed = stack.GetAmount();
                 //Sets the item to null
                 set(slot, null);
             }
         } else
         {
             //Loops though how many items are being removed
-            for (int index = 0; index < item.getAmount(); index++)
+            for (int index = 0; index < item.GetAmount(); index++)
             {
                 //Grabs what slot it has to be removed
-                int slot = getSlot(item.getId());
+                int slot = getSlot(item.GetId());
                 //Checks if the index is 0 and the preferred slot isnt -1
                 if (index == 0 && preferredSlot != -1)
                 {
                     //Grabs the item in the preferred slot
                     Item inSlot = get(preferredSlot);
                     //Checks if the item in slot match the item your trying to remove
-                    if (inSlot.getId() == item.getId()) slot = preferredSlot;
+                    if (inSlot.GetId() == item.GetId()) slot = preferredSlot;
                 }
                 //Checks if slot isnt -1
                 if (slot != -1) {
@@ -159,7 +159,7 @@ public class Container
             //Checks if the item is null
             if (item == null) continue;
             //Checks if the item ids match
-            if (item.getId() == contains.getId()) return true;
+            if (item.GetId() == contains.GetId()) return true;
         }
         return false;
     }
@@ -168,7 +168,7 @@ public class Container
     {
         //Loops though all the items as a for loop as we need a number to return for the slot
         for (int index = 0; index < items.Length; index++)
-            if (items[index] == null || items[index].getId() == -1) return index;
+            if (items[index] == null || items[index].GetId() == -1) return index;
         return -1;
     }
 
@@ -207,7 +207,7 @@ public class Container
             //Checks if the item is null
             if (items[index] == null) continue;
             //If the id's match return the right slot
-            if (items[index].getId() == id) return index;
+            if (items[index].GetId() == id) return index;
         }
         return -1;
     }

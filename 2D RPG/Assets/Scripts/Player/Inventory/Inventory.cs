@@ -89,7 +89,7 @@ public class Inventory : MonoBehaviour
                 slotStack.SetActive(false);
                 continue;
             }
-            int id = item.getId();
+            int id = item.GetId();
             //Grabs the path of the item sprite
             string spritePath = "Items/Sprites/sprite_" + id;
             //Grabs the item sprite
@@ -102,7 +102,7 @@ public class Inventory : MonoBehaviour
             if(item.getDefinition().stackable)
             {
                 //Sets the amount of items the player has
-                stackAmount.text = item.getAmount().ToString();
+                stackAmount.text = item.GetAmount().ToString();
                 //Actives the text
                 slotStack.SetActive(true);
             }

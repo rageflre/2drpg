@@ -9,4 +9,13 @@ public class Collectable : MonoBehaviour
     {
         onClick(amount);
     }
+
+    [SerializeField]
+    public GroundItem groundItem;
+
+    private void Start()
+    {
+        groundItem = new GroundItem(new Item(1), new Vector2(0, 0), gameObject, false);
+        GameManager.GetGroundItems().GetItems().Add(groundItem);
+    }
 }
