@@ -9,7 +9,8 @@ public class InventoryClick : MonoBehaviour
 
     private void Start()
     {
-        string number = transform.parent.name.Replace("Slot ", "");
+        string number = transform.parent.name.Replace("Slot ", "").Replace("(", "").Replace(")" +
+            "", "");
         slot = int.Parse(number);
     }
     public void onClick()

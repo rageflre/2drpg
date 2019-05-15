@@ -26,8 +26,7 @@ public class GroundItemManager : MonoBehaviour
 
     public void Remove(GroundItem groundItem, GameObject gObject)
     {
-
-        GameManager.GetInventory().Add(groundItem.GetItem());
+        Inventory.instance.GetInventory().Add(groundItem.GetItem());
         groundItems.Remove(groundItem);
         Destroy(gObject);
     }

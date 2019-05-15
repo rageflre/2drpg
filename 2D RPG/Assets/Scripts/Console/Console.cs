@@ -5,30 +5,20 @@ using UnityEngine.UI;
 
 public class Console : MonoBehaviour
 {
-
-    [SerializeField]
-    InputManager input;
     [SerializeField]
     GameObject consoleObject;
     [SerializeField]
     InputField commandsObject;
     [SerializeField]
     static Text commandsDisplay;
-    [SerializeField]
-    GameObject playerObject;
 
     public static bool consoleOpened = false;
 
     void Start()
     {
-        playerObject = GameObject.Find("Player");
-
-        input = playerObject.GetComponent<InputManager>();
-
         commandsObject = consoleObject.transform.GetChild(0).GetComponent<InputField>();
 
         commandsDisplay = consoleObject.transform.GetChild(1).GetComponent<Text>();
-
     }
 
     void Update()
@@ -41,7 +31,7 @@ public class Console : MonoBehaviour
     void OpenConsole()
     {
         //Checks if the user pressed the console key
-        if (input.consolePressed)
+        if (GameManager.GetInput().consolePressed)
         {
             //Sets the console opened to the oppesite
             consoleOpened = !consoleOpened;
@@ -55,7 +45,7 @@ public class Console : MonoBehaviour
     void EnterCommand()
     {
         //Checks if the user pressed enter and has the console opened
-        if(input.enterPressed && consoleOpened)
+        if(GameManager.GetInput().enterPressed && consoleOpened)
         {
             //Grabs the input from the input field
             string input = commandsObject.text;
@@ -64,7 +54,7 @@ public class Console : MonoBehaviour
             //Converts the input to lower case for handling the commands
             string[] args = input.ToLower().Split(' ');
             //Handles the commands
-            Commands.HandleCommands(playerObject, args);
+            Commands.HandleCommands(args);
             //Clears the input field's text
             commandsObject.text = "";
             //Focus on the input field

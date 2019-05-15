@@ -5,19 +5,11 @@ using UnityEngine;
 public class GameManager : MonoBehaviour
 {
     [SerializeField]
-    static GameObject player;
+    static InputManager input;
 
-    public static GameObject GetPlayer()
+    public static InputManager GetInput()
     {
-        return player;
-    }
-
-    [SerializeField]
-    static Inventory inventory;
-
-    public static Inventory GetInventory()
-    {
-        return inventory;
+        return input;
     }
 
     [SerializeField]
@@ -30,10 +22,7 @@ public class GameManager : MonoBehaviour
 
     void Awake()
     {
-        player = GameObject.Find("Player");
-
-        inventory = player.GetComponent<Inventory>();
-
+        input = GetComponent<InputManager>();
         groundItems = GetComponent<GroundItemManager>();
     }
 }

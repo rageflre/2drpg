@@ -5,7 +5,6 @@ using UnityEngine.SceneManagement;
 
 public class InputManager : MonoBehaviour
 {
-
     public float horizontalMovement
     {
         get;
@@ -19,6 +18,12 @@ public class InputManager : MonoBehaviour
     }
 
     public bool inventoryPressed
+    {
+        get;
+        set;
+    }
+
+    public bool bankPressed
     {
         get;
         set;
@@ -70,6 +75,7 @@ public class InputManager : MonoBehaviour
             inventoryPressed = Input.GetKeyDown(KeyCode.I);
             consolePressed = Input.GetKeyDown(KeyCode.F12);
             enterPressed = Input.GetKeyDown(KeyCode.Return);
+            bankPressed = Input.GetKeyDown(KeyCode.B);
         }
 
         if (quitButtonPressed)

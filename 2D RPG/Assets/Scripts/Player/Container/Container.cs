@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class Container
 {
@@ -8,22 +9,28 @@ public class Container
     private int capacity;
     //An array of the items in this container
     private Item[] items;
+    //The container it has to refesh
+    GameObject containerObject;
 
-    public Container(int capacity)
+    public Container(int capacity, GameObject container)
     {
         //Sets the amount of slots in the container
         this.capacity = capacity;
         //Sets the array with the size of the container
         this.items = new Item[capacity];
+        //Sets the container
+        this.containerObject = container;
     }
 
-    public void set(int index, Item item)
+    public void Set(int index, Item item)
     {
         //Sets the item on a certain slot
         items[index] = item;
+        //Refreshes the container
+        Refresh();
     }
 
-    public Item get(int slot)
+    public Item Get(int slot)
     {
         //Checks if the slot isnt -1
         if (slot == -1) return null;
@@ -31,21 +38,21 @@ public class Container
         return items[slot];
     }
 
-    public bool add(Item item)
+    public bool Add(Item item)
     {
-        return add(item, -1);
+        return Add(item, -1);
     }
 
-    public bool add(Item item, int slot)
+    public bool Add(Item item, int slot)
     {
         //Checks if the item isnt null
         if (item == null) return false;
         //Checks if the slot is higher then -1, else look for the next free slot
-        int newSlot = slot > -1 ? slot : freeSlot();
+        int newSlot = slot > -1 ? slot : FreeSlot();
         //Checks if the item is stackable and the player has the item
-        if (item.getDefinition().stackable && contains(item)) newSlot = getSlot(item.GetId());
+        if (item.getDefinition().stackable && Contains(item)) newSlot = GetSlot(item.GetId());
         //Make sure the slot is actually free once again
-        if (get(newSlot) != null) newSlot = freeSlot();
+        if (Get(newSlot) != null) newSlot = FreeSlot();
         //Checks if new slot is -1
         if (newSlot == -1) return false;
         //Checks if the item is stackable
@@ -62,17 +69,17 @@ public class Container
                     //Checks if the total count is higher then the max int or lower then 1
                     if (totalCount >= int.MaxValue || totalCount < 1) return false;
                     //Sets the new item amount on the correct slot
-                    set(index, new Item(items[index].GetId(), items[index].GetAmount() + item.GetAmount()));
+                    Set(index, new Item(items[index].GetId(), items[index].GetAmount() + item.GetAmount()));
                     return true;
                 }
             }
             //If item doesnt exist in the container already
-            set(newSlot, item);
+            Set(newSlot, item);
             return true;
         } else
         {
             //Checks how many free slots there are left in the container
-            int openSlots = freeSlots();
+            int openSlots = FreeSlots();
             //Checks if the amount of the items is higher then the free amount of slots the container has
             if (item.GetAmount() > openSlots)
                 item.setAmount(openSlots);
@@ -82,19 +89,19 @@ public class Container
                 //Loops though how many items it should add to the inventory
                 for (int i = 0; i < item.GetAmount(); i++)
                     //Sets the item to the new slot if its free else it takes the next available slot
-                    set(get(newSlot) == null ? newSlot : freeSlot(), new Item(item.GetId()));
+                    Set(Get(newSlot) == null ? newSlot : FreeSlot(), new Item(item.GetId()));
                 return true;
             }
         }
         return false;
     }
 
-    public int remove(Item item)
+    public int Remove(Item item)
     {
-        return remove(item, -1);
+        return Remove(item, -1);
     }
 
-    public int remove(Item item, int preferredSlot)
+    public int Remove(Item item, int preferredSlot)
     {
         //Checks if the item your trying to remove is null
         if (item == null) return -1;
@@ -103,9 +110,9 @@ public class Container
         if(item.getDefinition().stackable)
         {
             //Grabs the slot your trying to remove
-            int slot = getSlot(item.GetId());
+            int slot = GetSlot(item.GetId());
             //Grabs the item stack your removing
-            Item stack = get(slot);
+            Item stack = Get(slot);
             //Checks if there is a stack available or not
             if (stack == null) return -1;
             //Checks if the stack has more items then its removing
@@ -114,13 +121,13 @@ public class Container
                 //Sets how many items were removed
                 removed = item.GetAmount();
                 //Sets the new item with the correct amount
-                set(slot, new Item(stack.GetId(), stack.GetAmount() - item.GetAmount()));
+                Set(slot, new Item(stack.GetId(), stack.GetAmount() - item.GetAmount()));
             } else
             {
                 //Sets how many items were removed
                 removed = stack.GetAmount();
                 //Sets the item to null
-                set(slot, null);
+                Set(slot, null);
             }
         } else
         {
@@ -128,12 +135,12 @@ public class Container
             for (int index = 0; index < item.GetAmount(); index++)
             {
                 //Grabs what slot it has to be removed
-                int slot = getSlot(item.GetId());
+                int slot = GetSlot(item.GetId());
                 //Checks if the index is 0 and the preferred slot isnt -1
                 if (index == 0 && preferredSlot != -1)
                 {
                     //Grabs the item in the preferred slot
-                    Item inSlot = get(preferredSlot);
+                    Item inSlot = Get(preferredSlot);
                     //Checks if the item in slot match the item your trying to remove
                     if (inSlot.GetId() == item.GetId()) slot = preferredSlot;
                 }
@@ -142,7 +149,7 @@ public class Container
                     //Increase the removed
                     removed++;
                     //Sets the slot to null
-                    set(slot, null);
+                    Set(slot, null);
                 }
                 else break;
             }
@@ -151,7 +158,51 @@ public class Container
         return removed;
     }
 
-    public bool contains(Item contains)
+    void Refresh()
+    {
+        for (int index = 0; index < items.Length; index++)
+        {
+            Item item = items[index];
+            //Grabs the slot object
+            GameObject slotObject = containerObject.transform.GetChild(index).gameObject;
+            //Grabs the slot image object
+            GameObject slotImage = slotObject.transform.GetChild(0).gameObject;
+            //Grabs the slot text object
+            GameObject slotStack = slotObject.transform.GetChild(1).gameObject;
+            //Grabs the image component
+            Image image = slotImage.GetComponent<Image>();
+            //Grabs the text amount component
+            Text stackAmount = slotStack.GetComponent<Text>();
+            //Checks if the item isnt null
+            if (item == null || slotObject == null || image == null || stackAmount == null)
+            {
+                //Disables the image
+                slotImage.SetActive(false);
+                //Disables the text
+                slotStack.SetActive(false);
+                continue;
+            }
+            int id = item.GetId();
+            //Grabs the path of the item sprite
+            string spritePath = "Items/Sprites/sprite_" + id;
+            //Grabs the item sprite
+            Sprite sprite = Resources.Load<Sprite>(spritePath);
+            //Sets the image in the item image
+            image.sprite = sprite;
+            //Sets the image parent active
+            slotImage.SetActive(true);
+            //Checks if the item is stackable
+            if (item.getDefinition().stackable)
+            {
+                //Sets the amount of items the player has
+                stackAmount.text = item.GetAmount().ToString();
+                //Actives the text
+                slotStack.SetActive(true);
+            }
+        }
+    }
+
+    public bool Contains(Item contains)
     {
         //Loops though all items in this container
         foreach(Item item in items)
@@ -164,7 +215,7 @@ public class Container
         return false;
     }
 
-    public int freeSlot()
+    public int FreeSlot()
     {
         //Loops though all the items as a for loop as we need a number to return for the slot
         for (int index = 0; index < items.Length; index++)
@@ -172,7 +223,7 @@ public class Container
         return -1;
     }
 
-    public int size()
+    public int Size()
     {
         int size = 0;
         //Loops though all the items in the container
@@ -188,18 +239,18 @@ public class Container
         return size;
     }
 
-    public int freeSlots()
+    public int FreeSlots()
     {
-        return capacity - size();
+        return capacity - Size();
     }
 
-    public int getCapacity()
+    public int GetCapacity()
     {
         //Returns how many slots the container has
         return capacity;
     }
 
-    public int getSlot(int id)
+    public int GetSlot(int id)
     {
         //Loops though all the items in a for loop as we need a number to return for the slot
         for (int index = 0; index < items.Length; index++)
@@ -212,7 +263,7 @@ public class Container
         return -1;
     }
 
-    public Item[] toArray()
+    public Item[] ToArray()
     {
         //Returns an item array
         return items;
