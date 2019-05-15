@@ -28,7 +28,7 @@ public class GameManager : MonoBehaviour
         return groundItems;
     }
 
-    void Start()
+    void Awake()
     {
         player = GameObject.Find("Player");
 

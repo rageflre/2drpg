@@ -13,9 +13,14 @@ public class Collectable : MonoBehaviour
     [SerializeField]
     public GroundItem groundItem;
 
+    [SerializeField]
+    GameObject test;
+
     private void Start()
     {
-        groundItem = new GroundItem(new Item(1), new Vector2(0, 0), gameObject, false);
+        //test = new GameObject()
+
+        groundItem = new GroundItem(new Item(1), gameObject, true);
         GameManager.GetGroundItems().GetItems().Add(groundItem);
     }
 }

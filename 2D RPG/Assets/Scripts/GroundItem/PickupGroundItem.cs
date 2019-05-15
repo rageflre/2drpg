@@ -12,11 +12,8 @@ public class PickupGroundItem : MonoBehaviour
         collectable = transform.GetComponent<Collectable>();
         collectable.onClick += amount =>
         {
-            int id = int.Parse(transform.name.Substring(7));
-            Item item = new Item(id, amount);
-            GameManager.GetInventory().Add(item);
-            GameManager.GetGroundItems().GetItems().Remove(collectable.groundItem);
-            Destroy(gameObject);
+            GameManager.GetGroundItems().Pickup(collectable.groundItem);
+            //GameManager.GetGroundItems().Remove(collectable.groundItem, gameObject);
         };
     }
 }

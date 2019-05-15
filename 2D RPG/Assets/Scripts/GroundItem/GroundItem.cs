@@ -20,14 +20,6 @@ public class GroundItem
         return item;
     }
 
-    //The position of the time
-    private Vector2 position;
-
-    public Vector2 GetPositon()
-    {
-        return position;
-    }
-
     //The time before it shows up on the floor
     public int timer;
 
@@ -67,19 +59,17 @@ public class GroundItem
         return respawns;
     }
 
-    public GroundItem(Item _item, Vector2 _position, GameObject _itemObject)
+    public GroundItem(Item _item, GameObject _itemObject)
     {
         item = _item;
-        position = _position;
         itemObject = _itemObject;
         state = "PRIVATE";
         respawns = false;
     }
 
-    public GroundItem(Item _item, Vector2 _position, GameObject _itemObject, bool _respawns)
+    public GroundItem(Item _item, GameObject _itemObject, bool _respawns)
     {
         item = _item;
-        position = _position;
         itemObject = _itemObject;
         state = "PUBLIC";
         timer = 5;
